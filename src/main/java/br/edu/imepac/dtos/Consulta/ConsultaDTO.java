@@ -1,22 +1,31 @@
 package br.edu.imepac.dtos.Consulta;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import br.edu.imepac.entidades.Funcionario;
+import br.edu.imepac.entidades.Paciente;
+import jakarta.persistence.*;
+import lombok.*;
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//@JsonInclude(JsonInclude.Include.NON_NULL)
 
-public class ConsultaDTO {
+public class ConsultaDTO{
 
     private long id;
+
     private LocalDateTime dataHorario;
     private String sintomas;
     private boolean eRetorno;
     private boolean estaAtiva;
 
+    private Funcionario medico;
+
+    private Funcionario atendente;
+
+    private Paciente paciente;
+
+    private String prontuario;
+
+    private String convenio;
 }
