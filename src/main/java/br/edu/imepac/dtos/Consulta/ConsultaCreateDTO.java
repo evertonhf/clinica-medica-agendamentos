@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class ConsultaDTO{
+public class ConsultaCreateDTO{
 
     private LocalDateTime dataHorario;
     private String sintomas;
