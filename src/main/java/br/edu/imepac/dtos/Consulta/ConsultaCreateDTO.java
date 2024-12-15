@@ -17,11 +17,11 @@ public class ConsultaCreateDTO{
     private boolean eRetorno;
     private boolean estaAtiva;
 
-    private long medico;
+    private long medico_id;
 
-    private long atendente;
+    private long atendente_id;
 
-    private long paciente;
+    private long paciente_id;
 
     private String prontuario;
 
