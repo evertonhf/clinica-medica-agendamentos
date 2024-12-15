@@ -4,37 +4,35 @@ import lombok.Data;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
-@Table(name = "consulta")
 
 public class Consulta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
+  
     private long id;
+
     private LocalDateTime dataHorario;
     private String sintomas;
     private boolean eRetorno;
     private boolean estaAtiva;
 
-    @OneToOne(mappedBy = "medico",cascade = CascadeType.REMOVE)
-    private String medico;
 
-    @OneToMany(mappedBy = "atendente", cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "medico_id")
+    private Funcionario medico;
 
-    @OneToOne(mappedBy = "paciente", cascade = CascadeType.REMOVE)
-    private String paciente;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "atendente_id")
+    private Funcionario atendente;
 
-    @OneToMany(mappedBy = "prontuario", cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "paciente_id")
+    private Paciente paciente;
+
+    //@ManyToOne(mappedBy = "prontuario", cascade = CascadeType.REMOVE)
     private String prontuario;
 
-    @OneToMany(mappedBy = "convenio", cascade = CascadeType.REMOVE)
+    //@OneToOne(mappedBy = "convenio", cascade = CascadeType.REMOVE)
     private String convenio;
-
 }
