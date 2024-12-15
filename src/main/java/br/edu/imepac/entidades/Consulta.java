@@ -5,24 +5,18 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "consulta")
-@Entity
 public class Consulta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+  
     private long id;
 
     private LocalDateTime dataHorario;
     private String sintomas;
     private boolean eRetorno;
     private boolean estaAtiva;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "medico_id")
