@@ -4,7 +4,15 @@ import lombok.Data;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+import java.time.LocalDateTime;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "consulta")
+@Entity
+@EntityScan(basePackages = "br.edu.imepac.entidades")
 public class Consulta {
 
     @Id
