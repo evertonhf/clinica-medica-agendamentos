@@ -10,18 +10,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class ConsultaDTO{
+public class ConsultaCreateDTO{
 
     private LocalDateTime dataHorario;
     private String sintomas;
     private boolean eRetorno;
     private boolean estaAtiva;
 
-    private long medico;
+    private long medico_id;
 
-    private long atendente;
+    private long atendente_id;
 
-    private long paciente;
+    private long paciente_id;
 
     private String prontuario;
 
