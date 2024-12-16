@@ -58,4 +58,11 @@ public class ConsultaService {
         List<Consulta> consultas = consultaRepository.findAll();
         return modelMapper.map(consultas, List.class);
     }
+
+    public void cancelConsulta(Long id) {
+        Consulta consulta = consultaRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Consulta não encontrada!"));
+        consulta.setEstaAtiva(false);
+        consultaRepository.save(consulta);
+    }
 }

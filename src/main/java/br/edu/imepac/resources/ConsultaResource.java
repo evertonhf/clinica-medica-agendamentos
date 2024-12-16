@@ -75,4 +75,11 @@ public class ConsultaResource {
         log.info("Removendo consulta com ID: {}", id);
         consultaService.delete(id);
     }
+
+    @PatchMapping("/{id}/cancelar")
+    @ResponseStatus(OK)
+    public void cancelConsulta(@Parameter(description = "ID da consulta", required = true) @PathVariable Long id) {
+        log.info("Cancelando consulta com ID: {}", id);
+        consultaService.cancelConsulta(id);
+    }
 }

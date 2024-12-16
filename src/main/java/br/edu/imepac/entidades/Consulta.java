@@ -24,18 +24,18 @@ public class Consulta {
     private boolean estaAtiva;
 
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Funcionario medico;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Funcionario atendente;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Paciente paciente;
 
     @OneToOne(fetch = FetchType.EAGER)
     private Prontuario prontuario;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Convenio convenio;
 }
