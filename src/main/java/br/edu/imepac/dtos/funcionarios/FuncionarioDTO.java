@@ -1,21 +1,22 @@
-package br.edu.imepac.entidades;
+package br.edu.imepac.dtos.funcionarios;
 
-import jakarta.persistence.*;
+import br.edu.imepac.dtos.especialidades.EspecialidadeDTO;
+import br.edu.imepac.dtos.perfis.PerfilDTO;
+import br.edu.imepac.entidades.EnumTipoFuncionario;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.sql.Date;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "funcionarios")
-public class Funcionario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class FuncionarioDTO {
+
+    private int id;
     private String usuario;
     private int senha;
     private String nome;
@@ -30,18 +31,13 @@ public class Funcionario {
     private String estado;
     private String contato;
     private String email;
-
-    @Column(name = "data_nascimento")
     private Date dataNascimento;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_funcionario")
     private EnumTipoFuncionario tipoFuncionario;
 
+    private PerfilDTO perfilDTO;
 
-    @ManyToOne
-    private Perfil perfil;
-
-    @ManyToOne
-    private Especialidade especialidade;
+    private EspecialidadeDTO especialidadeDTO;
 }
+
+

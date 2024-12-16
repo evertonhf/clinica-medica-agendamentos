@@ -1,23 +1,21 @@
 package br.edu.imepac.entidades;
 
-import lombok.Data;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "consulta")
+@Table(name = "consultas")
 @Entity
-@EntityScan(basePackages = "br.edu.imepac.entidades")
 public class Consulta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  
     private long id;
 
     private LocalDateTime dataHorario;
@@ -26,21 +24,18 @@ public class Consulta {
     private boolean estaAtiva;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "medico_id")
+    @OneToOne(fetch = FetchType.EAGER)
     private Funcionario medico;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "atendente_id")
+    @OneToOne(fetch = FetchType.EAGER)
     private Funcionario atendente;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "paciente_id")
+    @OneToOne(fetch = FetchType.EAGER)
     private Paciente paciente;
 
-    //@ManyToOne(mappedBy = "prontuario", cascade = CascadeType.REMOVE)
-    private String prontuario;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Prontuario prontuario;
 
-    //@OneToOne(mappedBy = "convenio", cascade = CascadeType.REMOVE)
-    private String convenio;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Convenio convenio;
 }

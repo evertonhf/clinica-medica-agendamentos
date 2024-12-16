@@ -1,75 +1,78 @@
 package br.edu.imepac.resources;
 
-import br.edu.imepac.dtos.Consulta.ConsultaCreateDTO;
-import br.edu.imepac.dtos.Consulta.ConsultaDTO;
-import br.edu.imepac.repositories.ConsultaRepository;
+import br.edu.imepac.dtos.consultas.ConsultaCreateDTO;
+import br.edu.imepac.dtos.consultas.ConsultaDTO;
 import br.edu.imepac.services.ConsultaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.*;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/consultas")
 public class ConsultaResource {
 
+    private final ConsultaService consultaService;
+
     @Autowired
-    private ConsultaService consultaService;
+    public ConsultaResource(ConsultaService consultaService) {
+        this.consultaService = consultaService;
+    }
 
-    private ConsultaRepository consultaRepository;
-
+    @Operation(summary = "Salvar uma nova consulta", description = "Cria uma nova consulta")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Consulta criada com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PostMapping
-    public ResponseEntity<ConsultaDTO> createConsulta(@RequestBody ConsultaCreateDTO consultaCreateDTO) {
-        try {
-            ConsultaDTO createdConsulta = consultaService.save(consultaCreateDTO);
-            return new ResponseEntity<>(createdConsulta, HttpStatus.CREATED);
-        } catch (Exception e) {
-            // Log da exceção, se necessário
-            // logger.error("Erro ao criar consulta", e);
-
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Retorna erro genérico
-        }
+    @ResponseStatus(CREATED)
+    public ConsultaDTO createConsulta(@RequestBody @Parameter(description = "Dados da consulta a ser criada") ConsultaCreateDTO consultaCreateDTO) {
+        log.info("Tentando salvar uma nova consulta.");
+        return consultaService.save(consultaCreateDTO);
     }
 
+    @Operation(summary = "Buscar consulta por ID", description = "Obtém uma consulta específica pelo seu ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Consulta encontrada"),
+            @ApiResponse(responseCode = "404", description = "Consulta não encontrada"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<ConsultaDTO> getConsulta(@PathVariable Long id) {
-        try {
-            ConsultaDTO consultaDTO = consultaService.findById(id);
-            if (consultaDTO != null) {
-                return new ResponseEntity<>(consultaDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Retorna 404 se não encontrar
-            }
-        } catch (Exception e) {
-            // Log da exceção, se necessário
-            // logger.error("Erro ao buscar consulta com ID " + id, e);
-
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Retorna erro genérico
-        }
+    @ResponseStatus(OK)
+    public ConsultaDTO getConsulta(@Parameter(description = "ID da consulta", required = true) @PathVariable Long id) {
+        log.info("Buscando consulta com ID: {}", id);
+        return consultaService.findById(id);
     }
 
+    @Operation(summary = "Listar todas as consultas", description = "Obtém todas as consultas disponíveis")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de consultas retornada com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping
-    public ResponseEntity<List<ConsultaDTO>> getAllConsultas() {
-        try {
-            List<ConsultaDTO> consultas = consultaService.findAll();
-            return new ResponseEntity<>(consultas, HttpStatus.OK); // Retorna 200 OK com a lista
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Retorna erro genérico
-        }
+    @ResponseStatus(OK)
+    public List<ConsultaDTO> getAllConsultas() {
+        log.info("Listando todas as consultas.");
+        return consultaService.findAll();
     }
 
+    @Operation(summary = "Remover uma consulta por ID", description = "Deleta uma consulta com base no seu ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Consulta removida com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteConsulta(@PathVariable Long id) {
-        try {
-            consultaService.delete(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Retorna 204 se a exclusão for bem-sucedida
-        } catch (Exception e) {
-            // Log da exceção, se necessário
-            // logger.error("Erro ao excluir consulta com ID " + id, e);
-
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Retorna erro genérico
-        }
+    @ResponseStatus(NO_CONTENT)
+    public void deleteConsulta(@Parameter(description = "ID da consulta", required = true) @PathVariable Long id) {
+        log.info("Removendo consulta com ID: {}", id);
+        consultaService.delete(id);
     }
 }
